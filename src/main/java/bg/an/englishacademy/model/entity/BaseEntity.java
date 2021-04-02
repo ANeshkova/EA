@@ -1,11 +1,9 @@
 package bg.an.englishacademy.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-public class BaseEntity {
+@MappedSuperclass
+public abstract class BaseEntity {
 
     private long id;
 
