@@ -10,4 +10,5 @@ public interface RoleService {
 
     Set<RoleServiceModel> findAllRoles();
 
+    RoleServiceModel findByRole(String role);
 }
