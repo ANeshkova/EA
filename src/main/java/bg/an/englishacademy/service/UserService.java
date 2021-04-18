@@ -7,4 +7,6 @@ public interface UserService {
     void registerUser(UserServiceModel userServiceModel);
 
     boolean usernameExists(String username);
+
+    boolean emailExists(String email);
 }
