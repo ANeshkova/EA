@@ -38,4 +38,11 @@ public class RoleServiceImpl implements RoleService {
                 .map(role -> this.modelMapper.map(role, RoleServiceModel.class))
                 .collect(Collectors.toSet());
     }
+
+    @Override
+    public RoleServiceModel findByRole(String role) {
+
+        return this.modelMapper
+                .map(this.roleRepository.findByRole(role), RoleServiceModel.class);
+    }
 }
