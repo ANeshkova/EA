@@ -48,4 +48,9 @@ public class UserServiceImpl implements UserService {
 
         this.userRepository.save(userEntity);
     }
+
+    @Override
+    public boolean usernameExists(String username) {
+        return this.userRepository.findByUsername(username).isPresent();
+    }
 }
