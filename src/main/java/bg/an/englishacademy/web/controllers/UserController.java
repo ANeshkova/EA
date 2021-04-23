@@ -6,6 +6,7 @@ import bg.an.englishacademy.service.UserService;
 import bg.an.englishacademy.validation.UserValidationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,5 +62,15 @@ public class UserController extends BaseController {
     @GetMapping("/login")
     public String login() {
         return "users/login";
+    }
+
+    @PostMapping("/login-error")
+    public String failedLogin(@ModelAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
+                                      String username, RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("badCredentials", true);
+        redirectAttributes.addFlashAttribute("username", username);
+
+        return super.redirect("/users/login");
     }
 }
