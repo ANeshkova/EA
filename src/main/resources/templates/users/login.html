@@ -10,6 +10,9 @@
     <div th:if="${badCredentials}" class="alert alert-danger text-center" role="alert">
         This username and password combination does not exist.
     </div>
+    <div th:if="${registrationSuccessful}" class="alert alert-success text-center" role="alert">
+        Registration successful. You can now login.
+    </div>
 
     <form class="my-form" th:method="POST" th:action="@{/users/login}">
         <input type="hidden" name="_csrf" value="c95ccb2b-1afa-47bd-bf7b-a5b72739470b">
