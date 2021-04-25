@@ -6,6 +6,7 @@ import bg.an.englishacademy.repository.UserRepository;
 import bg.an.englishacademy.service.RoleService;
 import bg.an.englishacademy.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +58,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean emailExists(String email) {
         return this.userRepository.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public UserServiceModel findUserByUsername(String username) {
+        return this.userRepository.findByUsername(username).map(u -> this.modelMapper.map(u, UserServiceModel.class))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
 }
