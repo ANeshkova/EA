@@ -2,6 +2,7 @@ package bg.an.englishacademy.web.controllers;
 
 import bg.an.englishacademy.model.binding.UserRegisterBindingModel;
 import bg.an.englishacademy.model.service.UserServiceModel;
+import bg.an.englishacademy.model.view.UserProfileViewModel;
 import bg.an.englishacademy.service.UserService;
 import bg.an.englishacademy.validation.UserValidationService;
 import org.modelmapper.ModelMapper;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/users")
@@ -72,5 +74,17 @@ public class UserController extends BaseController {
         redirectAttributes.addFlashAttribute("username", username);
 
         return super.redirect("/users/login");
+    }
+
+    @GetMapping("/profile")
+    @PreAuthorize("isAuthenticated()")
+    public String profile(Principal principal, Model model) {
+
+        UserProfileViewModel userProfileViewModel = this.modelMapper
+                .map(this.userService.findUserByUsername(principal.getName()), UserProfileViewModel.class);
+
+        model.addAttribute("userProfileViewModel", userProfileViewModel);
+
+        return "users/profile";
     }
 }
