@@ -1,5 +1,6 @@
 package bg.an.englishacademy.web.controllers;
 
+import bg.an.englishacademy.model.binding.UserEditBindingModel;
 import bg.an.englishacademy.model.binding.UserRegisterBindingModel;
 import bg.an.englishacademy.model.service.UserServiceModel;
 import bg.an.englishacademy.model.view.UserProfileViewModel;
@@ -11,10 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -86,5 +84,22 @@ public class UserController extends BaseController {
         model.addAttribute("userProfileViewModel", userProfileViewModel);
 
         return "users/profile";
+    }
+
+    @GetMapping("/edit")
+    @PreAuthorize("isAuthenticated()")
+    public String editProfile(Principal principal, Model model) {
+
+        if (!model.containsAttribute("userEditBindingModel")) {
+            UserEditBindingModel userEditBindingModel = new UserEditBindingModel();
+            UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+
+            userEditBindingModel.setUsername(userServiceModel.getUsername());
+            userEditBindingModel.setEmail(userServiceModel.getEmail());
+
+            model.addAttribute("userEditBindingModel", userEditBindingModel);
+        }
+
+        return "users/profile-edit";
     }
 }
