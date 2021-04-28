@@ -11,4 +11,6 @@ public interface UserService {
     boolean emailExists(String email);
 
     UserServiceModel findUserByUsername(String username);
+
+    void editUserProfile(UserServiceModel userServiceModel, String oldPassword, Long id);
 }
