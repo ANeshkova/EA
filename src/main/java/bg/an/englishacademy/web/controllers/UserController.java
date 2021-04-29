@@ -102,4 +102,24 @@ public class UserController extends BaseController {
 
         return "users/profile-edit";
     }
+
+    @PatchMapping("/edit")
+    @PreAuthorize("isAuthenticated()")
+    public String editProfileConfirm(@Valid UserEditBindingModel userEditBindingModel,
+                                     BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {
+
+        UserServiceModel principalUserServiceModel = this.userService.findUserByUsername(principal.getName());
+
+        if (this.userValidationService.userEditHasErrors(userEditBindingModel, bindingResult, redirectAttributes,
+                principalUserServiceModel.getUsername(), principalUserServiceModel.getEmail())) {
+            return super.redirect("/users/edit");
+        }
+
+        this.userService.editUserProfile(this.modelMapper.map(userEditBindingModel, UserServiceModel.class),
+                userEditBindingModel.getOldPassword(), principalUserServiceModel.getId());
+
+        redirectAttributes.addFlashAttribute("profileEditedSuccessfully", true);
+
+        return super.redirect("/users/profile");
+    }
 }
