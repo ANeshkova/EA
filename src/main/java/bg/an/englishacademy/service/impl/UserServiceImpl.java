@@ -6,6 +6,10 @@ import bg.an.englishacademy.repository.UserRepository;
 import bg.an.englishacademy.service.RoleService;
 import bg.an.englishacademy.service.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,5 +68,32 @@ public class UserServiceImpl implements UserService {
     public UserServiceModel findUserByUsername(String username) {
         return this.userRepository.findByUsername(username).map(u -> this.modelMapper.map(u, UserServiceModel.class))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+    }
+
+    @Override
+    public void editUserProfile(UserServiceModel userServiceModel, String oldPassword, Long id) {
+
+        UserEntity userEntity = this.userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+
+        if (!this.passwordEncoder.matches(oldPassword, userEntity.getPassword())) {
+            throw new IllegalArgumentException("Incorrect old password!");
+        }
+
+        userEntity.setUsername(userServiceModel.getUsername());
+        userEntity.setEmail(userServiceModel.getEmail());
+        userEntity.setPassword(this.passwordEncoder.encode(userServiceModel.getPassword()));
+
+        this.userRepository.saveAndFlush(userEntity);
+
+        UserDetails principal = userDetailsService.loadUserByUsername(userEntity.getUsername());
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                principal,
+                userEntity.getPassword(),
+                principal.getAuthorities()
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }
