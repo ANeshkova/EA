@@ -48,6 +48,7 @@
                 <input required minlength="5" maxlength="20" type="password" class="form-control" id="confirmNewPassword" placeholder="Confirm New Password..." name="confirmNewPassword">
                 <small th:each="e : ${#fields.errors('confirmNewPassword')}" th:text="${e}" class="text-danger form-text text-center rounded"></small>
             </div>
+            <small th:if="${passwordsDontMatch}" class="text-danger form-text text-center rounded">Passwords don't match</small>
 
             <hr class="my-form__hr" />
             <div class="button-holder mt-3 d-flex justify-content-center">
