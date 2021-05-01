@@ -115,11 +115,16 @@ public class UserController extends BaseController {
             return super.redirect("/users/edit");
         }
 
-        this.userService.editUserProfile(this.modelMapper.map(userEditBindingModel, UserServiceModel.class),
-                userEditBindingModel.getOldPassword(), principalUserServiceModel.getId());
+        try {
+            this.userService.editUserProfile(this.modelMapper.map(userEditBindingModel, UserServiceModel.class),
+                    userEditBindingModel.getOldPassword(), principalUserServiceModel.getId());
+            redirectAttributes.addFlashAttribute("profileEditedSuccessfully", true);
+            return super.redirect("/users/profile");
 
-        redirectAttributes.addFlashAttribute("profileEditedSuccessfully", true);
-
-        return super.redirect("/users/profile");
+        } catch (IllegalArgumentException exception) {
+            redirectAttributes.addFlashAttribute("exception", true);
+            redirectAttributes.addFlashAttribute("exceptionMessage", exception.getMessage());
+            return super.redirect("/users/edit");
+        }
     }
 }
