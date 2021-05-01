@@ -103,7 +103,7 @@ public class UserController extends BaseController {
         return "users/profile-edit";
     }
 
-    @PatchMapping("/edit")
+    @PostMapping("/edit")
     @PreAuthorize("isAuthenticated()")
     public String editProfileConfirm(@Valid UserEditBindingModel userEditBindingModel,
                                      BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {

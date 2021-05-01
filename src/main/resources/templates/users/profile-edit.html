@@ -19,7 +19,7 @@
             This email is already occupied.
         </div>
 
-        <form th:object="${userEditBindingModel}" class="my-form" th:method="PATCH" th:action="@{/users/edit}">
+        <form th:object="${userEditBindingModel}" class="my-form" th:method="POST" th:action="@{/users/edit}">
             <input type="hidden" name="_csrf" value="c95ccb2b-1afa-47bd-bf7b-a5b72739470b">
             <h3 class="text-center">Edit Profile</h3>
             <hr class="my-form__hr" />
