@@ -15,3 +15,18 @@ spring:
         properties:
             hibernate:
                 format_sql: true
+    servlet:
+        multipart:
+            max-file-size: 5MB
+            max-request-size: 5MB
+            enabled: true
+
+    mvc:
+        hiddenmethod:
+            filter:
+                enabled: true
+
+cloudinary:
+    cloud-name: "${CLOUD_NAME}"
+    api-key: "${API_KEY}"
+    api-secret: "${CLOUDINARY_SECRET}"
