@@ -25,4 +25,12 @@ public class CategoryServiceImpl implements CategoryService {
     public boolean categoryNameExists(String name) {
         return this.categoryRepository.findByName(name).isPresent();
     }
+
+    @Override
+    public CategoryServiceModel addCategory(CategoryServiceModel categoryServiceModel) {
+        this.categoryRepository.saveAndFlush(this.modelMapper
+                        .map(categoryServiceModel, CategoryEntity.class));
+
+        return categoryServiceModel;
+    }
 }
