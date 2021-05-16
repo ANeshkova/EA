@@ -44,4 +44,22 @@ public class CategoryController extends BaseController {
         }
         return "categories/category-add";
     }
+
+    @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String addConfirm(@Valid CategoryAddBindingModel categoryAddBindingModel,
+                             BindingResult bindingResult, RedirectAttributes redirectAttributes) throws IOException {
+
+        if (this.categoryValidationService.categoryAddHasErrors(categoryAddBindingModel, bindingResult, redirectAttributes)) {
+            return redirect("/categories/add");
+        }
+
+        CategoryServiceModel categoryServiceModel = this.modelMapper.map(categoryAddBindingModel, CategoryServiceModel.class);
+        categoryServiceModel.setImageUrl(this.cloudinaryService.uploadImage(categoryAddBindingModel.getImageUrl()));
+
+        this.categoryService.addCategory(categoryServiceModel);
+        redirectAttributes.addFlashAttribute("categoryAddedSuccessfully", true);
+
+        return redirect("/categories/all/admin-table");
+    }
 }
