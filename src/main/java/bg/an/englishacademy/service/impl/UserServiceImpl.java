@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -95,5 +97,14 @@ public class UserServiceImpl implements UserService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    @Override
+    public List<UserServiceModel> findAllUsers() {
+        return this.userRepository
+                .findAll()
+                .stream()
+                .map(u -> this.modelMapper.map(u, UserServiceModel.class))
+                .collect(Collectors.toList());
     }
 }
