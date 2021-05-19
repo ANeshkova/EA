@@ -2,8 +2,10 @@ package bg.an.englishacademy.web.controllers;
 
 import bg.an.englishacademy.model.binding.UserEditBindingModel;
 import bg.an.englishacademy.model.binding.UserRegisterBindingModel;
+import bg.an.englishacademy.model.service.RoleServiceModel;
 import bg.an.englishacademy.model.service.UserServiceModel;
 import bg.an.englishacademy.model.view.UserProfileViewModel;
+import bg.an.englishacademy.model.view.UserViewModel;
 import bg.an.englishacademy.service.UserService;
 import bg.an.englishacademy.validation.UserValidationService;
 import org.modelmapper.ModelMapper;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -126,5 +130,28 @@ public class UserController extends BaseController {
             redirectAttributes.addFlashAttribute("exceptionMessage", exception.getMessage());
             return super.redirect("/users/edit");
         }
+    }
+
+    @GetMapping("/all/admin-table")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String allUsers(Model model) {
+        List<UserViewModel> users = this.userService
+                .findAllUsers()
+                .stream()
+                .map(u -> {
+                    UserViewModel userViewModel = this.modelMapper.map(u, UserViewModel.class);
+                    userViewModel.setRoles(
+                            u.getRoles()
+                                    .stream()
+                                    .map(RoleServiceModel::getRole)
+                                    .collect(Collectors.toSet()));
+
+                    return userViewModel;
+                })
+                .collect(Collectors.toList());
+
+        model.addAttribute("users", users);
+
+        return "users/users-all-admin-table";
     }
 }
