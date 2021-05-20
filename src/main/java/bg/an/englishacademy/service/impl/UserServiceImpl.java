@@ -107,4 +107,24 @@ public class UserServiceImpl implements UserService {
                 .map(u -> this.modelMapper.map(u, UserServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void setUserRole(Long id, String role) {
+        UserEntity user = this.userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+        userServiceModel.getRoles().clear();
+
+        switch (role) {
+            case "user":
+                userServiceModel.getRoles().add(this.roleService.findByRole("USER"));
+                break;
+            case "admin":
+                userServiceModel.getRoles().add(this.roleService.findByRole("USER"));
+                userServiceModel.getRoles().add(this.roleService.findByRole("ADMIN"));
+                break;
+        }
+
+        this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, UserEntity.class));
+    }
 }
