@@ -17,4 +17,6 @@ public interface UserService {
     void editUserProfile(UserServiceModel userServiceModel, String oldPassword, Long id);
 
     List<UserServiceModel> findAllUsers();
+
+    void setUserRole(Long id, String role);
 }
