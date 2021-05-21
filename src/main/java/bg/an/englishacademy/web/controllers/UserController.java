@@ -162,4 +162,12 @@ public class UserController extends BaseController {
 
         return super.redirect("/users/all/admin-table");
     }
+
+    @PostMapping("/set-admin/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String setAdmin(@PathVariable Long id) {
+        this.userService.setUserRole(id, "admin");
+
+        return super.redirect("/users/all/admin-table");
+    }
 }
