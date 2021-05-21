@@ -154,4 +154,12 @@ public class UserController extends BaseController {
 
         return "users/users-all-admin-table";
     }
+
+    @PostMapping("/set-user/{id}")
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    public String setUser(@PathVariable Long id) {
+        this.userService.setUserRole(id, "user");
+
+        return super.redirect("/users/all/admin-table");
+    }
 }
