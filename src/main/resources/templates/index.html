@@ -7,7 +7,22 @@
 <th:block th:include="~{fragments/nav}"></th:block>
 
 <main>
-    <h1>Hello from index page</h1>
+    <div class="p-5 mt-5 wrapper mx-auto" style="border-radius: 20px; max-width: 1300px;">
+        <div style="display: flex; justify-content: space-around; align-items: center;">
+            <div style="width: 600px">
+                <h1 class="text-center">Welcome to English Academy</h1>
+                <p class="p-4 m-0 text-center"
+                   style="font-size: 20px;">
+                    Join the largest website for learning English. Get access to all resources for free.
+                    Watch interesting video lessons and improve your English every day.
+                    Let's get started >>> <span><a th:href="@{/users/login}">Login</a></span>
+                    if you have an account or <span><a th:href="@{/users/register}">Register</a></span> if you don't.
+                </p>
+            </div>
+            <img style="display: inline-block; max-width: 350px;"
+                 src="https://learningenglish365.com/new/wp-content/uploads/2020/09/learning-english-header.png">
+        </div>
+    </div>
 </main>
 
 <th:block th:include="~{fragments/footer}"></th:block>
