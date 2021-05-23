@@ -5,10 +5,11 @@ import bg.an.englishacademy.model.binding.UserRegisterBindingModel;
 import bg.an.englishacademy.service.UserService;
 import bg.an.englishacademy.validation.UserValidationService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Component
+@Service
 public class UserValidationServiceImpl implements UserValidationService {
 
     private final UserService userService;
