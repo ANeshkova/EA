@@ -23,4 +23,9 @@ public class WordServiceImpl implements WordService {
         this.wordRepository.save(modelMapper.map(wordServiceModel, WordEntity.class));
         return wordServiceModel;
     }
+
+    @Override
+    public boolean englishWordExistsInCategory(String englishWord, String categoryName) {
+        return this.wordRepository.findByEnglishAndCategory_Name(englishWord, categoryName).isPresent();
+    }
 }
