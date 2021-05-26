@@ -33,4 +33,11 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categoryServiceModel;
     }
+
+    @Override
+    public List<String> findAllCategoryNames() {
+        return categoryRepository.findAll()
+                .stream().map(CategoryEntity::getName)
+                .collect(Collectors.toList());
+    }
 }
