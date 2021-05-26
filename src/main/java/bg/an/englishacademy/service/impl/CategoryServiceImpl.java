@@ -40,4 +40,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .stream().map(CategoryEntity::getName)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public CategoryServiceModel findCategoryByName(String categoryName) {
+        return this.categoryRepository.findByName(categoryName)
+                .map(c -> this.modelMapper.map(c, CategoryServiceModel.class))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category!"));
+    }
 }
