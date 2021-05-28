@@ -10,6 +10,10 @@
 
 <main>
 
+    <div th:if="${englishWordAlreadyExistsInThisCategory}" class="alert alert-danger text-center" role="alert"
+         th:text="|Word ${wordAddBindingModel.english} already exists in category ${wordAddBindingModel.category}.|">
+    </div>
+
     <form th:object="${wordAddBindingModel}" class="my-form" th:method="POST" th:action="@{/words/add}">
         <input type="hidden" name="_csrf" value="c95ccb2b-1afa-47bd-bf7b-a5b72739470b">
         <h3 class="text-center">Add Word</h3>
