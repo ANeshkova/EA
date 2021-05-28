@@ -47,4 +47,22 @@ public class WordController extends BaseController {
 
         return "words/word-add";
     }
+
+    @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String addWordConfirm(@Valid WordAddBindingModel wordAddBindingModel, BindingResult bindingResult,
+                                 RedirectAttributes redirectAttributes) {
+
+        if (this.wordValidationService.wordAddHasErrors(wordAddBindingModel, bindingResult, redirectAttributes)) {
+            return super.redirect("/words/add");
+        }
+
+        WordServiceModel wordServiceModel = this.modelMapper.map(wordAddBindingModel, WordServiceModel.class);
+        wordServiceModel.setCategory(this.categoryService.findCategoryByName(wordAddBindingModel.getCategory()));
+
+        this.wordService.addWord(wordServiceModel);
+        redirectAttributes.addFlashAttribute("wordAddedSuccessfully", true);
+
+        return super.redirect("/words/all/admin-table");
+    }
 }
