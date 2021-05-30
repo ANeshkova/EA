@@ -7,6 +7,9 @@ import bg.an.englishacademy.service.WordService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class WordServiceImpl implements WordService {
 
@@ -27,5 +30,12 @@ public class WordServiceImpl implements WordService {
     @Override
     public boolean englishWordExistsInCategory(String englishWord, String categoryName) {
         return this.wordRepository.findByEnglishAndCategory_Name(englishWord, categoryName).isPresent();
+    }
+
+    @Override
+    public List<WordServiceModel> findAllWords() {
+        return this.wordRepository.findAll()
+                .stream().map(w -> this.modelMapper.map(w, WordServiceModel.class))
+                .collect(Collectors.toList());
     }
 }
