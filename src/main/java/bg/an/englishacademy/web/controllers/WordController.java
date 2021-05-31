@@ -2,6 +2,7 @@ package bg.an.englishacademy.web.controllers;
 
 import bg.an.englishacademy.model.binding.WordAddBindingModel;
 import bg.an.englishacademy.model.service.WordServiceModel;
+import bg.an.englishacademy.model.view.WordViewModel;
 import bg.an.englishacademy.service.CategoryService;
 import bg.an.englishacademy.service.UserService;
 import bg.an.englishacademy.service.WordService;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/words")
@@ -64,5 +67,24 @@ public class WordController extends BaseController {
         redirectAttributes.addFlashAttribute("wordAddedSuccessfully", true);
 
         return super.redirect("/words/all/admin-table");
+    }
+
+    @GetMapping("/all/admin-table")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String allWords(Model model) {
+
+        List<WordViewModel> words = this.wordService
+                .findAllWords()
+                .stream()
+                .map(w -> {
+                    WordViewModel wordViewModel = this.modelMapper.map(w, WordViewModel.class);
+                    wordViewModel.setCategory(w.getCategory().getName());
+                    return wordViewModel;
+                })
+                .collect(Collectors.toList());
+
+        model.addAttribute("words", words);
+
+        return "words/words-all-admin-table";
     }
 }
