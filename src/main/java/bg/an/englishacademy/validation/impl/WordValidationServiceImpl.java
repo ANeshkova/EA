@@ -1,6 +1,8 @@
 package bg.an.englishacademy.validation.impl;
 
 import bg.an.englishacademy.model.binding.WordAddBindingModel;
+import bg.an.englishacademy.model.binding.WordEditBindingModel;
+import bg.an.englishacademy.model.service.WordServiceModel;
 import bg.an.englishacademy.service.CategoryService;
 import bg.an.englishacademy.service.WordService;
 import bg.an.englishacademy.validation.WordValidationService;
@@ -30,6 +32,27 @@ public class WordValidationServiceImpl implements WordValidationService {
 
         if (this.wordService.englishWordExistsInCategory(wordAddBindingModel.getEnglish(), wordAddBindingModel.getCategory())) {
             redirectAttributes.addFlashAttribute("wordAddBindingModel", wordAddBindingModel);
+            redirectAttributes.addFlashAttribute("englishWordAlreadyExistsInThisCategory", true);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean wordEditHasErrors(WordEditBindingModel wordEditBindingModel, BindingResult bindingResult,
+                                     RedirectAttributes redirectAttributes, Long id) {
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("wordEditBindingModel", wordEditBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.wordEditBindingModel", bindingResult);
+            return true;
+        }
+
+        WordServiceModel currentWord = this.wordService.findWordById(id);
+
+        if (this.wordService.englishWordExistsInCategory(wordEditBindingModel.getEnglish(), wordEditBindingModel.getCategory())
+                && !wordEditBindingModel.getEnglish().equalsIgnoreCase(currentWord.getEnglish())) {
+            redirectAttributes.addFlashAttribute("wordEditBindingModel", wordEditBindingModel);
             redirectAttributes.addFlashAttribute("englishWordAlreadyExistsInThisCategory", true);
             return true;
         }
