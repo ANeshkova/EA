@@ -11,4 +11,6 @@ public interface WordService {
     boolean englishWordExistsInCategory(String englishWord, String categoryName);
 
     List<WordServiceModel> findAllWords();
+
+    WordServiceModel findWordById(Long id);
 }
