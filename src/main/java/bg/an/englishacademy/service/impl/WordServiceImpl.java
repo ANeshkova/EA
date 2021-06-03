@@ -1,5 +1,6 @@
 package bg.an.englishacademy.service.impl;
 
+import bg.an.englishacademy.model.entity.CategoryEntity;
 import bg.an.englishacademy.model.entity.WordEntity;
 import bg.an.englishacademy.model.service.WordServiceModel;
 import bg.an.englishacademy.repository.WordRepository;
@@ -37,5 +38,12 @@ public class WordServiceImpl implements WordService {
         return this.wordRepository.findAll()
                 .stream().map(w -> this.modelMapper.map(w, WordServiceModel.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public WordServiceModel findWordById(Long id) {
+        WordEntity wordEntity = this.wordRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Word with id " + id + " not found"));
+        return this.modelMapper.map(wordEntity, WordServiceModel.class);
     }
 }
