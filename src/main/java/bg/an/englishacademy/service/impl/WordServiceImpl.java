@@ -46,4 +46,16 @@ public class WordServiceImpl implements WordService {
                 .orElseThrow(() -> new IllegalArgumentException("Word with id " + id + " not found"));
         return this.modelMapper.map(wordEntity, WordServiceModel.class);
     }
+
+    @Override
+    public WordServiceModel editWord(Long id, WordServiceModel wordServiceModel) {
+        WordEntity wordEntity = this.wordRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Word with id" + id + " not found"));
+
+        wordEntity.setEnglish(wordServiceModel.getEnglish());
+        wordEntity.setBulgarian(wordServiceModel.getBulgarian());
+        wordEntity.setCategory(this.modelMapper.map(wordServiceModel.getCategory(), CategoryEntity.class));
+
+        return this.modelMapper.map(this.wordRepository.saveAndFlush(wordEntity), WordServiceModel.class);
+    }
 }
