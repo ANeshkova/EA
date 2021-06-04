@@ -13,4 +13,6 @@ public interface WordService {
     List<WordServiceModel> findAllWords();
 
     WordServiceModel findWordById(Long id);
+
+    WordServiceModel editWord(Long id, WordServiceModel wordServiceModel);
 }
