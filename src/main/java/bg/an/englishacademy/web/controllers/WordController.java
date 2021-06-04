@@ -111,4 +111,22 @@ public class WordController extends BaseController {
 
         return "words/word-edit";
     }
+
+    @PostMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String editWordConfirm(@Valid WordEditBindingModel wordEditBindingModel, BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes, @PathVariable Long id) {
+
+        if (this.wordValidationService.wordEditHasErrors(wordEditBindingModel, bindingResult, redirectAttributes, id)) {
+            return super.redirect("/words/edit/" + id);
+        }
+
+        WordServiceModel wordServiceModel = this.modelMapper.map(wordEditBindingModel, WordServiceModel.class);
+        wordServiceModel.setCategory(this.categoryService.findCategoryByName(wordEditBindingModel.getCategory()));
+
+        this.wordService.editWord(id, wordServiceModel);
+        redirectAttributes.addFlashAttribute("wordEditedSuccessfully", true);
+
+        return super.redirect("/words/all/admin-table");
+    }
 }
