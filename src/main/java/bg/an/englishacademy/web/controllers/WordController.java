@@ -1,6 +1,7 @@
 package bg.an.englishacademy.web.controllers;
 
 import bg.an.englishacademy.model.binding.WordAddBindingModel;
+import bg.an.englishacademy.model.binding.WordEditBindingModel;
 import bg.an.englishacademy.model.service.WordServiceModel;
 import bg.an.englishacademy.model.view.WordViewModel;
 import bg.an.englishacademy.service.CategoryService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -86,5 +88,27 @@ public class WordController extends BaseController {
         model.addAttribute("words", words);
 
         return "words/words-all-admin-table";
+    }
+
+    @GetMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String editWord(@PathVariable Long id, Model model) {
+
+        if (!model.containsAttribute("wordEditBindingModel")) {
+            WordEditBindingModel wordEditBindingModel = new WordEditBindingModel();
+            WordServiceModel wordServiceModel = this.wordService.findWordById(id);
+
+            wordEditBindingModel.setEnglish(wordServiceModel.getEnglish());
+            wordEditBindingModel.setBulgarian(wordServiceModel.getBulgarian());
+            wordEditBindingModel.setCategory(wordServiceModel.getCategory().getName());
+
+            model.addAttribute("wordEditBindingModel", wordEditBindingModel);
+        }
+
+        List<String> categories = this.categoryService.findAllCategoryNames();
+        model.addAttribute("categories", categories);
+        model.addAttribute("id", id);
+
+        return "words/word-edit";
     }
 }
