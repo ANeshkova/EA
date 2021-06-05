@@ -129,4 +129,12 @@ public class WordController extends BaseController {
 
         return super.redirect("/words/all/admin-table");
     }
+
+    @GetMapping("/delete/{id}/{category}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String deleteWord(@PathVariable Long id, @PathVariable String category, Model model) {
+        model.addAttribute(id);
+        model.addAttribute(category);
+        return "words/word-delete";
+    }
 }
