@@ -15,4 +15,6 @@ public interface WordService {
     WordServiceModel findWordById(Long id);
 
     WordServiceModel editWord(Long id, WordServiceModel wordServiceModel);
+
+    void deleteWord(Long id);
 }
