@@ -58,4 +58,9 @@ public class WordServiceImpl implements WordService {
 
         return this.modelMapper.map(this.wordRepository.saveAndFlush(wordEntity), WordServiceModel.class);
     }
+
+    @Override
+    public void deleteWord(Long id) {
+        this.wordRepository.deleteById(id);
+    }
 }
