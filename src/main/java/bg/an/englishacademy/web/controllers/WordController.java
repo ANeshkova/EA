@@ -137,4 +137,19 @@ public class WordController extends BaseController {
         model.addAttribute(category);
         return "words/word-delete";
     }
+
+    @PostMapping("/delete/{id}/{category}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String deleteWordConfirm(@PathVariable Long id, @PathVariable String category,
+                                    RedirectAttributes redirectAttributes) {
+
+        this.wordService.deleteWord(id);
+        redirectAttributes.addFlashAttribute("wordDeletedSuccessfully", true);
+
+        if (category.equals("all")) {
+            return super.redirect("/words/all/admin-table");
+        }
+
+        return super.redirect("/words/all/admin-table/" + category);
+    }
 }
