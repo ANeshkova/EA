@@ -13,4 +13,6 @@ public interface CategoryService {
     List<String> findAllCategoryNames();
 
     CategoryServiceModel findCategoryByName(String categoryName);
+
+    List<CategoryServiceModel> findAllCategories();
 }
