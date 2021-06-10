@@ -2,6 +2,7 @@ package bg.an.englishacademy.web.controllers;
 
 import bg.an.englishacademy.model.binding.CategoryAddBindingModel;
 import bg.an.englishacademy.model.service.CategoryServiceModel;
+import bg.an.englishacademy.model.view.CategoryViewModel;
 import bg.an.englishacademy.service.CategoryService;
 import bg.an.englishacademy.service.CloudinaryService;
 import bg.an.englishacademy.validation.CategoryValidationService;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/categories")
@@ -61,5 +64,20 @@ public class CategoryController extends BaseController {
         redirectAttributes.addFlashAttribute("categoryAddedSuccessfully", true);
 
         return redirect("/categories/all/admin-table");
+    }
+
+    @GetMapping("/all/admin-table")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String allCategories(Model model) {
+
+        List<CategoryViewModel> categories = this.categoryService
+                .findAllCategories()
+                .stream()
+                .map(p -> this.modelMapper.map(p, CategoryViewModel.class))
+                .collect(Collectors.toList());
+
+        model.addAttribute("categories", categories);
+
+        return "categories/categories-all-admin-table";
     }
 }
