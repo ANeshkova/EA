@@ -47,4 +47,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(c -> this.modelMapper.map(c, CategoryServiceModel.class))
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category!"));
     }
+
+    @Override
+    public List<CategoryServiceModel> findAllCategories() {
+        return this.categoryRepository.findAll()
+                .stream().map(c -> this.modelMapper.map(c, CategoryServiceModel.class))
+                .collect(Collectors.toList());
+    }
 }
