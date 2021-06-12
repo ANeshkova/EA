@@ -80,4 +80,18 @@ public class CategoryController extends BaseController {
 
         return "categories/categories-all-admin-table";
     }
+
+    @GetMapping("/all")
+    @PreAuthorize("isAuthenticated()")
+    public String all(Model model) {
+
+        List<CategoryViewModel> categories =
+                this.categoryService.findAllCategories()
+                        .stream()
+                        .map(c -> this.modelMapper.map(c, CategoryViewModel.class))
+                        .collect(Collectors.toList());
+
+        model.addAttribute("categories", categories);
+        return "categories/categories-all";
+    }
 }
