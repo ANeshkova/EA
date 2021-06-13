@@ -15,4 +15,6 @@ public interface CategoryService {
     CategoryServiceModel findCategoryByName(String categoryName);
 
     List<CategoryServiceModel> findAllCategories();
+
+    CategoryServiceModel findCategoryById(Long id);
 }
