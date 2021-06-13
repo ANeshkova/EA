@@ -54,4 +54,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .stream().map(c -> this.modelMapper.map(c, CategoryServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public CategoryServiceModel findCategoryById(Long id) {
+        CategoryEntity categoryEntity = this.categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Category with id " + id + " not found"));
+        return this.modelMapper.map(categoryEntity, CategoryServiceModel.class);
+    }
 }
