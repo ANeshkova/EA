@@ -17,4 +17,6 @@ public interface CategoryService {
     List<CategoryServiceModel> findAllCategories();
 
     CategoryServiceModel findCategoryById(Long id);
+
+    CategoryServiceModel editCategory(Long id, CategoryServiceModel categoryServiceModel);
 }
