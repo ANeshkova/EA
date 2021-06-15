@@ -61,4 +61,18 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new IllegalArgumentException("Category with id " + id + " not found"));
         return this.modelMapper.map(categoryEntity, CategoryServiceModel.class);
     }
+
+    @Override
+    public CategoryServiceModel editCategory(Long id, CategoryServiceModel categoryServiceModel) {
+        CategoryEntity categoryEntity = this.categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Category with id" + id + " not found"));
+
+        categoryEntity.setName(categoryServiceModel.getName());
+
+        if (!categoryServiceModel.getImageUrl().equals("")) {
+            categoryEntity.setImageUrl(categoryServiceModel.getImageUrl());
+        }
+
+        return this.modelMapper.map(this.categoryRepository.saveAndFlush(categoryEntity), CategoryServiceModel.class);
+    }
 }
