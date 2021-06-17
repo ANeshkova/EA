@@ -112,4 +112,27 @@ public class CategoryController extends BaseController {
         model.addAttribute("id", id);
         return "categories/category-edit";
     }
+
+    @PostMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String editCategoryConfirm(@Valid CategoryEditBindingModel categoryEditBindingModel, BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes, @PathVariable Long id) throws IOException {
+
+        if (this.categoryValidationService.categoryEditHasErrors(categoryEditBindingModel, bindingResult, redirectAttributes, id)) {
+            return super.redirect("/categories/edit/" + id);
+        }
+
+        CategoryServiceModel categoryServiceModel = this.modelMapper.map(categoryEditBindingModel, CategoryServiceModel.class);
+
+        if (categoryEditBindingModel.getImageUrl().isEmpty()) {
+            categoryServiceModel.setImageUrl("");
+        } else {
+            categoryServiceModel.setImageUrl(this.cloudinaryService.uploadImage(categoryEditBindingModel.getImageUrl()));
+        }
+
+        this.categoryService.editCategory(id, categoryServiceModel);
+        redirectAttributes.addFlashAttribute("categoryEditedSuccessfully", true);
+
+        return super.redirect("/categories/all/admin-table");
+    }
 }
