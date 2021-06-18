@@ -75,4 +75,9 @@ public class CategoryServiceImpl implements CategoryService {
 
         return this.modelMapper.map(this.categoryRepository.saveAndFlush(categoryEntity), CategoryServiceModel.class);
     }
+
+    @Override
+    public void deleteCategory(Long id) {
+        this.categoryRepository.deleteById(id);
+    }
 }
