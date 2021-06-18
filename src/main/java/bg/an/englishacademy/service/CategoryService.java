@@ -19,4 +19,6 @@ public interface CategoryService {
     CategoryServiceModel findCategoryById(Long id);
 
     CategoryServiceModel editCategory(Long id, CategoryServiceModel categoryServiceModel);
+
+    void deleteCategory(Long id);
 }
