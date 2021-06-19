@@ -9,6 +9,10 @@
 
 <main>
 
+    <div th:if="${categoryNameAlreadyExists}" class="alert alert-danger text-center" role="alert"
+         th:text="|Category with name ${categoryEditBindingModel.name} already exists.|">
+    </div>
+
     <form th:object="${categoryEditBindingModel}" enctype="multipart/form-data" class="my-form"
           th:method="POST" th:action="@{/categories/edit/{id}(id=${id})}">
         <input type="hidden" name="_csrf" value="c95ccb2b-1afa-47bd-bf7b-a5b72739470b">
