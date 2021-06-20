@@ -135,4 +135,11 @@ public class CategoryController extends BaseController {
 
         return super.redirect("/categories/all/admin-table");
     }
+
+    @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String deleteCategory(@PathVariable Long id, Model model) {
+        model.addAttribute(id);
+        return "categories/category-delete";
+    }
 }
