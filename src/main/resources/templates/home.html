@@ -5,9 +5,93 @@
 </head>
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
+<script type="text/javascript" src="https://code.responsivevoice.org/responsivevoice.js"></script>
+<main>
+    <div style="max-width: 1300px; margin: 0 auto">
+        <div class="p-4 pt-5 wrapper mx-auto" style="border-radius: 25px; width: 92%;">
+            <h2 class="text-center" th:text="|Welcome, ${username}|"></h2>
 
-<h1>Hello from home page</h1>
+            <p class="p-4 m-0 text-center">Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit
+                amet
+                Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit amet
+                Lorem ipsum dolor sit amet Lorem ipsum dolor sit ametLorem ipsum dolor sit amet
+                Let's get started</p>
+        </div>
 
+        <div class="row justify-content-around mt-5" id="albumsList">
+
+            <div class="col-md-5">
+                <div class="card mb-4 box-shadow" style="border-radius: 25px;">
+                    <img th:src="@{https://recruiterawards.co.uk/wp-content/uploads/2020/09/neon-text-categories-blue.png}"
+                         class="card-img-top" alt="Categories"
+                         data-holder-rendered="true"
+                         style="height: 250px; width: 100%; display: block;">
+                    <div class="card-body wrapper"
+                         style="padding: 25px 40px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;">
+                        <div class="text-center">
+                            <h3 class="card-text">Categories</h3>
+                            <p class="card-text">All words are divided into categories. This makes it easier for you to
+                                learn.
+                                See all categories and start learning new words for free.</p>
+                        </div>
+                        <hr class="my-form__hr">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="btn-group">
+                                <a th:href="@{/categories/all}" type="button" class="btn my-button">All Categories</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="card mb-4 box-shadow" style="border-radius: 25px;">
+                    <img th:src="@{https://blog.efmdglobal.org/wp-content/uploads/2020/05/Online_lessons_Grenoble-scaled-e1589966744685.jpg}"
+                         class="card-img-top" alt="Categories"
+                         data-holder-rendered="true"
+                         style="height: 250px; width: 100%; display: block; border-top-right-radius: 25px; border-top-left-radius: 25px;">
+                    <div class="card-body wrapper"
+                         style="padding: 25px 40px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;">
+                        <div class="text-center">
+                            <h3 class="card-text">Video Lessons</h3>
+                            <p class="card-text">Watching video lessons in English is the best way to
+                                improve your English. Here you can find all the lessons and watch them for free.</p>
+                        </div>
+                        <hr class="my-form__hr">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="btn-group">
+                                <a th:href="@{/lessons/all}" type="button" class="btn my-button">All Lessons</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pt-5 pb-3 pl-5 pr-5 mt-4 wrapper mx-auto" style="border-radius: 25px; width: 92%;">
+            <h4 class="text-center"
+                th:text="|${username}, find words you want to learn and add them to your words ;)|"></h4>
+
+            <div class="mt-4 mb-4 col-sm-12 mx-auto align-self-center">
+                <input id="searchInput" class="form-control w-50" style="margin: 0 auto" type="search"
+                       placeholder="Search english or bulgarian word" aria-label="Search">
+            </div>
+
+            <table id="wordsTable" class="table table-hover mx-auto" style="width: 85%;">
+
+            </table>
+        </div>
+    </div>
+</main>
 <th:block th:include="~{fragments/footer}"></th:block>
+
+<script>
+    function textSpeak(id) {
+        responsiveVoice.speak(id);
+    }
+</script>
+
+<script th:src="@{js/search-bar.js}"></script>
 </body>
 </html>
