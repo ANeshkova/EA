@@ -2,6 +2,7 @@ package bg.an.englishacademy.web.controllers;
 
 import bg.an.englishacademy.model.binding.WordAddBindingModel;
 import bg.an.englishacademy.model.binding.WordEditBindingModel;
+import bg.an.englishacademy.model.service.UserServiceModel;
 import bg.an.englishacademy.model.service.WordServiceModel;
 import bg.an.englishacademy.model.view.WordViewModel;
 import bg.an.englishacademy.service.CategoryService;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -151,5 +154,31 @@ public class WordController extends BaseController {
         }
 
         return super.redirect("/words/all/admin-table/" + category);
+    }
+
+    @GetMapping("/all/{category}")
+    @PreAuthorize("isAuthenticated()")
+    public String details(Model model, @PathVariable String category, Principal principal) {
+
+        List<WordViewModel> words =
+                this.wordService.findAllWordsByCategory(category)
+                        .stream()
+                        .map(w -> {
+                            WordViewModel wordViewModel = this.modelMapper.map(w, WordViewModel.class);
+                            wordViewModel.setCategory(w.getCategory().getName());
+                            return wordViewModel;
+                        })
+                        .collect(Collectors.toList());
+
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+
+        Set<Long> userWords = userServiceModel.getWords()
+                .stream().map(word -> word.getId()).collect(Collectors.toSet());
+
+        model.addAttribute("userWords", userWords);
+        model.addAttribute("words", words);
+        model.addAttribute("category", category);
+
+        return "words/words-all";
     }
 }
