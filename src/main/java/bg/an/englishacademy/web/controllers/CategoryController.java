@@ -142,4 +142,14 @@ public class CategoryController extends BaseController {
         model.addAttribute(id);
         return "categories/category-delete";
     }
+
+    @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String deleteCategoryConfirm(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
+        this.categoryService.deleteCategory(id);
+        redirectAttributes.addFlashAttribute("categoryDeletedSuccessfully", true);
+
+        return super.redirect("/categories/all/admin-table");
+    }
 }
