@@ -63,4 +63,11 @@ public class WordServiceImpl implements WordService {
     public void deleteWord(Long id) {
         this.wordRepository.deleteById(id);
     }
+
+    @Override
+    public List<WordServiceModel> findAllWordsByCategory(String category) {
+        return this.wordRepository.findAllByCategory_Name(category)
+                .stream().map(w -> this.modelMapper.map(w, WordServiceModel.class))
+                .collect(Collectors.toList());
+    }
 }
