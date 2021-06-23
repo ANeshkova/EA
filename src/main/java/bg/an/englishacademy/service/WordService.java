@@ -17,4 +17,6 @@ public interface WordService {
     WordServiceModel editWord(Long id, WordServiceModel wordServiceModel);
 
     void deleteWord(Long id);
+
+    List<WordServiceModel> findAllWordsByCategory(String category);
 }
