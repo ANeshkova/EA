@@ -1,6 +1,7 @@
 package bg.an.englishacademy.service;
 
 import bg.an.englishacademy.model.service.UserServiceModel;
+import bg.an.englishacademy.model.service.WordServiceModel;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface UserService {
     List<UserServiceModel> findAllUsers();
 
     void setUserRole(Long id, String role);
+
+    UserServiceModel addWordToUser(WordServiceModel wordServiceModel, UserServiceModel userServiceModel);
 }
