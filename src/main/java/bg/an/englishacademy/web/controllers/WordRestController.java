@@ -41,4 +41,16 @@ public class WordRestController {
                         .map(w -> this.modelMapper.map(w, WordViewModel.class))
                         .collect(Collectors.toList()));
     }
+
+    @GetMapping("/user/api")
+    public ResponseEntity<Set<Long>> findAllByUser(Principal principal) {
+
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+        Set<Long> userWords = userServiceModel.getWords()
+                .stream().map(word -> word.getId()).collect(Collectors.toSet());
+
+        return ResponseEntity
+                .ok()
+                .body(userWords);
+    }
 }
