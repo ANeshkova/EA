@@ -2,6 +2,7 @@ package bg.an.englishacademy.service.impl;
 
 import bg.an.englishacademy.model.entity.UserEntity;
 import bg.an.englishacademy.model.service.UserServiceModel;
+import bg.an.englishacademy.model.service.WordServiceModel;
 import bg.an.englishacademy.repository.UserRepository;
 import bg.an.englishacademy.service.RoleService;
 import bg.an.englishacademy.service.UserService;
@@ -126,5 +127,14 @@ public class UserServiceImpl implements UserService {
         }
 
         this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, UserEntity.class));
+    }
+
+    @Override
+    public UserServiceModel addWordToUser(WordServiceModel wordServiceModel, UserServiceModel userServiceModel) {
+
+        userServiceModel.getWords().add(wordServiceModel);
+        this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, UserEntity.class));
+
+        return userServiceModel;
     }
 }
