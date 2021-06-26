@@ -66,4 +66,17 @@ public class WordRestController {
                 .ok()
                 .body("added");
     }
+
+    @GetMapping("/remove/{id}/api")
+    public ResponseEntity<String> removeFromUser(Principal principal, @PathVariable Long id) {
+
+        WordServiceModel wordServiceModel = this.wordService.findWordById(id);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+
+        this.userService.removeWordFromUser(wordServiceModel, userServiceModel);
+
+        return ResponseEntity
+                .ok()
+                .body("removed");
+    }
 }
