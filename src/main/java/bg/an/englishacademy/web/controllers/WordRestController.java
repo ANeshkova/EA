@@ -53,4 +53,17 @@ public class WordRestController {
                 .ok()
                 .body(userWords);
     }
+
+    @GetMapping("/add/{id}/api")
+    public ResponseEntity<String> addToUser(Principal principal, @PathVariable Long id) {
+
+        WordServiceModel wordServiceModel = this.wordService.findWordById(id);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+
+        this.userService.addWordToUser(wordServiceModel, userServiceModel);
+
+        return ResponseEntity
+                .ok()
+                .body("added");
+    }
 }
