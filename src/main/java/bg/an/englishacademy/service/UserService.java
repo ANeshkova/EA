@@ -22,4 +22,6 @@ public interface UserService {
     void setUserRole(Long id, String role);
 
     UserServiceModel addWordToUser(WordServiceModel wordServiceModel, UserServiceModel userServiceModel);
+
+    UserServiceModel removeWordFromUser(WordServiceModel wordServiceModel, UserServiceModel userServiceModel);
 }
