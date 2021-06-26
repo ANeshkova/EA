@@ -137,4 +137,13 @@ public class UserServiceImpl implements UserService {
 
         return userServiceModel;
     }
+
+    @Override
+    public UserServiceModel removeWordFromUser(WordServiceModel wordServiceModel, UserServiceModel userServiceModel) {
+
+        userServiceModel.getWords().removeIf(word -> word.getId() == wordServiceModel.getId());
+        this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, UserEntity.class));
+
+        return userServiceModel;
+    }
 }
