@@ -214,4 +214,14 @@ public class WordController extends BaseController {
             return redirect("/words/all/" + endpoint);
         }
     }
+
+    @GetMapping("/my")
+    @PreAuthorize("isAuthenticated()")
+    public String myWords (Model model, Principal principal) {
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+        Set<WordServiceModel> myWords = userServiceModel.getWords();
+
+        model.addAttribute("words", myWords);
+        return "words/words-my";
+    }
 }
