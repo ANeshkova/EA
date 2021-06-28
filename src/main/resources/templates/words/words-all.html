@@ -11,6 +11,9 @@
     <script type="text/javascript" src="https://code.responsivevoice.org/responsivevoice.js"></script>
 
     <div style="max-width: 1300px; margin: 0 auto">
+        <div th:if="${wordAddedSuccessfully}" class="alert alert-success text-center" role="alert"
+             th:text="|Word ${word} added successfully to your words.|">
+        </div>
 
         <div class="pt-5 pb-5 wrapper mx-auto" style="border-radius: 20px;">
             <th:block th:if="${words.size() == 0}">
