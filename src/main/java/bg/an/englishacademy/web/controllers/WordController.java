@@ -181,4 +181,18 @@ public class WordController extends BaseController {
 
         return "words/words-all";
     }
+
+    @PostMapping("/add-to-my/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String addToMy(@PathVariable Long id, Principal principal, RedirectAttributes redirectAttributes) {
+        WordServiceModel wordServiceModel = this.wordService.findWordById(id);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+
+        this.userService.addWordToUser(wordServiceModel, userServiceModel);
+        String category = wordServiceModel.getCategory().getName();
+
+        redirectAttributes.addFlashAttribute("wordAddedSuccessfully", true);
+        redirectAttributes.addFlashAttribute("word", wordServiceModel.getEnglish());
+        return redirect("/words/all/" + category);
+    }
 }
