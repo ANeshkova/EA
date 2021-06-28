@@ -195,4 +195,23 @@ public class WordController extends BaseController {
         redirectAttributes.addFlashAttribute("word", wordServiceModel.getEnglish());
         return redirect("/words/all/" + category);
     }
+
+    @PostMapping("/remove-from-my/{endpoint}/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String removeFromMyRedirectCategory(@PathVariable String endpoint, @PathVariable Long id, Principal principal,
+                                               RedirectAttributes redirectAttributes) {
+        WordServiceModel wordServiceModel = this.wordService.findWordById(id);
+        UserServiceModel userServiceModel = this.userService.findUserByUsername(principal.getName());
+
+        this.userService.removeWordFromUser(wordServiceModel, userServiceModel);
+
+        redirectAttributes.addFlashAttribute("wordRemovedSuccessfully", true);
+        redirectAttributes.addFlashAttribute("word", wordServiceModel.getEnglish());
+
+        if (endpoint.equals("my")) {
+            return redirect("/words/my");
+        } else {
+            return redirect("/words/all/" + endpoint);
+        }
+    }
 }
