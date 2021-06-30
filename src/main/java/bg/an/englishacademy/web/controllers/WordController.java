@@ -224,4 +224,24 @@ public class WordController extends BaseController {
         model.addAttribute("words", myWords);
         return "words/words-my";
     }
+
+    @GetMapping("/all/admin-table/{category}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String allWordsByCategory(Model model, @PathVariable String category) {
+
+        List<WordViewModel> words =
+                this.wordService.findAllWordsByCategory(category)
+                        .stream()
+                        .map(w -> {
+                            WordViewModel wordViewModel = this.modelMapper.map(w, WordViewModel.class);
+                            wordViewModel.setCategory(w.getCategory().getName());
+                            return wordViewModel;
+                        })
+                        .collect(Collectors.toList());
+
+        model.addAttribute("words", words);
+        model.addAttribute("category", category);
+
+        return "words/words-all-by-category-admin-table";
+    }
 }
