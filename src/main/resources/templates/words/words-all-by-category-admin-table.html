@@ -9,6 +9,9 @@
 
 <main>
     <div style="max-width: 1300px; margin: 0 auto">
+        <div th:if="${wordEditedSuccessfully}" class="alert alert-success text-center" role="alert">
+            Word edited successfully.
+        </div>
         <div class="pt-5 pb-5 wrapper mx-auto" style="border-radius: 20px;">
 
             <th:block th:if="${words.size() == 0}">
