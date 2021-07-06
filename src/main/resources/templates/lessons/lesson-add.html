@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+
+<main>
+
+    <form th:object="${lessonAddBindingModel}" class="my-form" th:method="POST" th:action="@{/lessons/add}">
+        <input type="hidden" name="_csrf" value="c95ccb2b-1afa-47bd-bf7b-a5b72739470b">
+        <h3 class="text-center">Add Lesson</h3>
+        <hr class="my-form__hr" />
+        <div class="form-group">
+            <label for="title" class="text-black mb-1">Title</label>
+            <input required minlength="3" maxlength="100" th:field="*{title}" type="text" class="form-control" id="title" placeholder="Title..." name="title">
+            <small th:each="e : ${#fields.errors('title')}" th:text="${e}" class="text-danger form-text text-center rounded"></small>
+        </div>
+        <div class="form-group">
+            <label for="description" class="text-black mb-1">Description</label>
+            <textarea required minlength="3" th:field="*{description}" type="text" class="form-control" id="description" placeholder="Description..." name="description"></textarea>
+            <small th:each="e : ${#fields.errors('description')}" th:text="${e}" class="text-danger form-text text-center rounded"></small>
+        </div>
+        <div class="form-group">
+            <label for="videoUrl" class="text-black mb-1">Video url</label>
+            <input required minlength="11" maxlength="11" th:field="*{videoUrl}" type="text" class="form-control" id="videoUrl" placeholder="Youtube video url after ?v=..." name="videoUrl">
+            <small th:each="e : ${#fields.errors('videoUrl')}" th:text="${e}" class="text-danger form-text text-center rounded"></small>
+        </div>
+
+        <hr class="my-form__hr"/>
+        <div class="button-holder mt-3 d-flex justify-content-center">
+            <button type="submit" class="btn my-button glow-button">Add</button>
+        </div>
+    </form>
+</main>
+
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>
