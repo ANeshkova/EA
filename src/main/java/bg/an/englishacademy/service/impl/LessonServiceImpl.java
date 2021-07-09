@@ -26,4 +26,9 @@ public class LessonServiceImpl implements LessonService {
         this.lessonRepository.save(lessonEntity);
         return lessonServiceModel;
     }
+
+    @Override
+    public boolean lessonTitleExists(String title) {
+        return this.lessonRepository.findByTitle(title).isPresent();
+    }
 }
