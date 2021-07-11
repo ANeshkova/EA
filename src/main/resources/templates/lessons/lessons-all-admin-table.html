@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+
+<main>
+    <div style="max-width: 1300px; margin: 0 auto">
+    <div class="pt-5 pb-5 wrapper mx-auto" style="border-radius: 20px;">
+        <h1 class="text-center text-dark">All lessons</h1>
+        <hr class="hr-2 my-form__hr" style="width: 85%;">
+        <table class="table table-hover mx-auto" style="width: 85%;">
+            <thead>
+            <tr class="row mx-auto">
+                <th class="col-md-1 text-center">#</th>
+                <th class="col-md-3 text-center">Title</th>
+                <th class="col-md-3 text-center">Video url</th>
+                <th class="col-md-2 text-center">Added on</th>
+                <th class="col-md-3 text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <th:block th:each="lesson, iter : ${lessons}">
+                <tr class="row mx-auto">
+                    <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
+                    <td class="col-md-3 text-center" th:text="${lesson.title}"></td>
+                    <td class="col-md-3 text-center" th:text="${lesson.videoUrl}"></td>
+                    <td class="col-md-2 text-center" th:text="${lesson.addedOn}"></td>
+                    <td class="col-md-3 text-center">
+                        <a th:href="@{/lessons/details/{id}(id=${lesson.id})}" class="btn btn-secondary font-weight-bold text-white">Details</a>
+                        <a th:href="@{/lessons/edit/{id}(id=${lesson.id})}" class="btn btn-success font-weight-bold text-white">Edit</a>
+                        <a th:href="@{/lessons/delete/{id}(id=${lesson.id})}" class="btn btn-danger font-weight-bold text-white">Delete</a>
+                    </td>
+                </tr>
+            </th:block>
+
+            </tbody>
+        </table>
+        <hr class="hr-2 my-form__hr" style="width: 85%;">
+    </div>
+    </div>
+</main>
+
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>
