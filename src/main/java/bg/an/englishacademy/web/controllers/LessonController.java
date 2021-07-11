@@ -60,4 +60,19 @@ public class LessonController extends BaseController{
 
         return super.redirect("/lessons/all/admin-table");
     }
+
+    @GetMapping("/all/admin-table")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String allLessonsAdminTable(Model model) {
+
+        List<LessonViewModel> lessons = this.lessonService
+                .findAllLessons()
+                .stream()
+                .map(l -> this.modelMapper.map(l, LessonViewModel.class))
+                .collect(Collectors.toList());
+
+        model.addAttribute("lessons", lessons);
+
+        return "lessons/lessons-all-admin-table";
+    }
 }
