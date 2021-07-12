@@ -75,4 +75,19 @@ public class LessonController extends BaseController{
 
         return "lessons/lessons-all-admin-table";
     }
+
+    @GetMapping("/all")
+    @PreAuthorize("isAuthenticated()")
+    public String allLessons(Model model) {
+
+        List<LessonViewModel> lessons = this.lessonService
+                .findAllLessons()
+                .stream()
+                .map(l -> this.modelMapper.map(l, LessonViewModel.class))
+                .collect(Collectors.toList());
+
+        model.addAttribute("lessons", lessons);
+
+        return "lessons/lessons-all";
+    }
 }
