@@ -7,6 +7,10 @@ import bg.an.englishacademy.service.LessonService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class LessonServiceImpl implements LessonService {
 
@@ -30,5 +34,12 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public boolean lessonTitleExists(String title) {
         return this.lessonRepository.findByTitle(title).isPresent();
+    }
+
+    @Override
+    public List<LessonServiceModel> findAllLessons() {
+        return this.lessonRepository.findAll()
+                .stream().map(l -> this.modelMapper.map(l, LessonServiceModel.class))
+                .collect(Collectors.toList());
     }
 }
