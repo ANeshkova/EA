@@ -10,4 +10,6 @@ public interface LessonService {
     boolean lessonTitleExists(String title);
 
     List<LessonServiceModel> findAllLessons();
+
+    LessonServiceModel findLessonById(Long id);
 }
