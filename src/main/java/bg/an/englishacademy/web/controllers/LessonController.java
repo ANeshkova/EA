@@ -90,4 +90,16 @@ public class LessonController extends BaseController{
 
         return "lessons/lessons-all";
     }
+
+    @GetMapping("/details/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String details(Model model, @PathVariable Long id) {
+
+        LessonViewModel lesson = this.modelMapper.map(this.lessonService
+                .findLessonById(id), LessonViewModel.class);
+
+        model.addAttribute("lesson", lesson);
+
+        return "lessons/lesson-details";
+    }
 }
