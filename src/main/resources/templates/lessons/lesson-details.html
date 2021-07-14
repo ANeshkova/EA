@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+
+<main>
+    <div class="pt-5 pb-5 container-lg wrapper mx-auto" style="max-width: 1000px; border-radius: 25px;">
+        <!-- Start -->
+        <div class="pb-5 col-md-8 mx-auto">
+            <div class="text-center">
+                <h2 class="border-bottom" th:text="${lesson.title}"></h2>
+            </div>
+        </div>
+
+        <div class="col-md-10 bg-transparent rounded mx-auto">
+            <div class="rounded embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" th:src="'https://www.youtube.com/embed/' + *{lesson.videoUrl}"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="pt-5 col-md-10 mx-auto">
+            <div class="text-center">
+                <h4>Lesson description</h4>
+            </div>
+            <div class="m-4 text-center">
+                <p th:text="${lesson.description}"></p>
+            </div>
+        </div>
+        <!-- End -->
+    </div>
+</main>
+
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>
