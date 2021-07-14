@@ -42,4 +42,12 @@ public class LessonServiceImpl implements LessonService {
                 .stream().map(l -> this.modelMapper.map(l, LessonServiceModel.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public LessonServiceModel findLessonById(Long id) {
+        LessonEntity lessonEntity = this.lessonRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Lesson with id " + id + " not found."));
+
+        return this.modelMapper.map(lessonEntity, LessonServiceModel.class);
+    }
 }
