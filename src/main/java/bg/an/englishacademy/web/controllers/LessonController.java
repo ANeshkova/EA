@@ -102,4 +102,24 @@ public class LessonController extends BaseController{
 
         return "lessons/lesson-details";
     }
+
+    @GetMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String editLesson(@PathVariable Long id, Model model) {
+
+        if (!model.containsAttribute("lessonEditBindingModel")) {
+            LessonEditBindingModel lessonEditBindingModel = new LessonEditBindingModel();
+            LessonServiceModel lessonServiceModel = this.lessonService.findLessonById(id);
+
+            lessonEditBindingModel.setTitle(lessonServiceModel.getTitle());
+            lessonEditBindingModel.setDescription(lessonServiceModel.getDescription());
+            lessonEditBindingModel.setVideoUrl(lessonServiceModel.getVideoUrl());
+
+            model.addAttribute("lessonEditBindingModel", lessonEditBindingModel);
+        }
+
+        model.addAttribute("id", id);
+
+        return "lessons/lesson-edit";
+    }
 }
