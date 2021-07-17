@@ -9,6 +9,10 @@
 
 <main>
 
+    <div th:if="${lessonWithThisTitleAlreadyExists}" class="alert alert-danger text-center" role="alert"
+         th:text="|Lesson with title ${lessonEditBindingModel.title} already exists.|">
+    </div>
+
     <form th:object="${lessonEditBindingModel}" class="my-form" th:method="POST" th:action="@{/lessons/edit/{id}(id=${id})}">
         <input type="hidden" name="_csrf" value="c95ccb2b-1afa-47bd-bf7b-a5b72739470b">
         <h3 class="text-center">Edit lesson</h3>
