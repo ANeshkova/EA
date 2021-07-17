@@ -35,4 +35,25 @@ public class LessonValidationServiceImpl implements LessonValidationService {
 
         return false;
     }
+
+    @Override
+    public boolean lessonEditHasErrors(LessonEditBindingModel lessonEditBindingModel, BindingResult bindingResult,
+                                       RedirectAttributes redirectAttributes, Long id) {
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("lessonEditBindingModel", lessonEditBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.lessonEditBindingModel", bindingResult);
+            return true;
+        }
+
+        LessonServiceModel currentLesson = this.lessonService.findLessonById(id);
+
+        if (this.lessonService.lessonTitleExists(lessonEditBindingModel.getTitle())
+                && !lessonEditBindingModel.getTitle().equalsIgnoreCase(currentLesson.getTitle())) {
+            redirectAttributes.addFlashAttribute("lessonEditBindingModel", lessonEditBindingModel);
+            redirectAttributes.addFlashAttribute("lessonWithThisTitleAlreadyExists", true);
+            return true;
+        }
+
+        return false;
+    }
 }
