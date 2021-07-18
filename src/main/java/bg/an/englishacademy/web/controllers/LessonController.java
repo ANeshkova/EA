@@ -122,4 +122,21 @@ public class LessonController extends BaseController{
 
         return "lessons/lesson-edit";
     }
+
+    @PostMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String editLessonConfirm(@Valid LessonEditBindingModel lessonEditBindingModel, BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes, @PathVariable Long id) {
+
+        if (this.lessonValidationService.lessonEditHasErrors(lessonEditBindingModel, bindingResult, redirectAttributes, id)) {
+            return super.redirect("/lessons/edit/" + id);
+        }
+
+        LessonServiceModel lessonServiceModel = this.modelMapper.map(lessonEditBindingModel, LessonServiceModel.class);
+
+        this.lessonService.editLesson(id, lessonServiceModel);
+        redirectAttributes.addFlashAttribute("lessonEditedSuccessfully", true);
+
+        return super.redirect("/lessons/all/admin-table");
+    }
 }
