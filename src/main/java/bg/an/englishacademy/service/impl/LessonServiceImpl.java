@@ -50,4 +50,16 @@ public class LessonServiceImpl implements LessonService {
 
         return this.modelMapper.map(lessonEntity, LessonServiceModel.class);
     }
+
+    @Override
+    public LessonServiceModel editLesson(Long id, LessonServiceModel lessonServiceModel) {
+        LessonEntity lessonEntity = this.lessonRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Lesson with id " + id + " not found."));
+
+        lessonEntity.setTitle(lessonServiceModel.getTitle());
+        lessonEntity.setDescription(lessonServiceModel.getDescription());
+        lessonEntity.setVideoUrl(lessonServiceModel.getVideoUrl());
+
+        return this.modelMapper.map(this.lessonRepository.saveAndFlush(lessonEntity), LessonServiceModel.class);
+    }
 }
