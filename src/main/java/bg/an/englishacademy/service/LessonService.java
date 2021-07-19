@@ -12,4 +12,6 @@ public interface LessonService {
     List<LessonServiceModel> findAllLessons();
 
     LessonServiceModel findLessonById(Long id);
+
+    LessonServiceModel editLesson(Long id, LessonServiceModel lessonServiceModel);
 }
