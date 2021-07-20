@@ -14,4 +14,6 @@ public interface LessonService {
     LessonServiceModel findLessonById(Long id);
 
     LessonServiceModel editLesson(Long id, LessonServiceModel lessonServiceModel);
+
+    void deleteLesson(Long id);
 }
