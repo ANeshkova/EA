@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+
+<main>
+    <form class="my-form"
+          th:method="POST" th:action="@{/lessons/delete/{id}(id=${id})}">
+        <input type="hidden" name="_csrf" value="c95ccb2b-1afa-47bd-bf7b-a5b72739470b">
+        <h3 class="text-center" style="margin: 20px;">Are you sure you want to delete this lesson?</h3>
+
+        <div class="button-holder mt-3 d-flex justify-content-center" style="margin: 15px;">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+    </form>
+</main>
+
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+</html>
