@@ -139,4 +139,11 @@ public class LessonController extends BaseController{
 
         return super.redirect("/lessons/all/admin-table");
     }
+
+    @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String deleteLesson(@PathVariable Long id, Model model) {
+        model.addAttribute(id);
+        return "lessons/lesson-delete";
+    }
 }
