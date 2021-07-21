@@ -146,4 +146,14 @@ public class LessonController extends BaseController{
         model.addAttribute(id);
         return "lessons/lesson-delete";
     }
+
+    @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String deleteLessonConfirm(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
+        this.lessonService.deleteLesson(id);
+        redirectAttributes.addFlashAttribute("lessonDeletedSuccessfully", true);
+
+        return super.redirect("/lessons/all/admin-table");
+    }
 }
