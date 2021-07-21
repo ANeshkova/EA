@@ -62,4 +62,9 @@ public class LessonServiceImpl implements LessonService {
 
         return this.modelMapper.map(this.lessonRepository.saveAndFlush(lessonEntity), LessonServiceModel.class);
     }
+
+    @Override
+    public void deleteLesson(Long id) {
+        this.lessonRepository.deleteById(id);
+    }
 }
