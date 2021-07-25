@@ -1,6 +1,7 @@
 package bg.an.englishacademy.service.impl;
 
 import bg.an.englishacademy.model.entity.LessonEntity;
+import bg.an.englishacademy.model.service.CategoryServiceModel;
 import bg.an.englishacademy.model.service.LessonServiceModel;
 import bg.an.englishacademy.repository.LessonRepository;
 import bg.an.englishacademy.service.LessonService;
@@ -66,5 +67,12 @@ public class LessonServiceImpl implements LessonService {
     @Override
     public void deleteLesson(Long id) {
         this.lessonRepository.deleteById(id);
+    }
+
+    @Override
+    public LessonServiceModel findLessonByTitle(String lessonTitle) {
+        return this.lessonRepository.findByTitle(lessonTitle)
+                .map(l -> this.modelMapper.map(l, LessonServiceModel.class))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid lesson!"));
     }
 }
