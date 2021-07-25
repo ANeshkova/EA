@@ -16,4 +16,6 @@ public interface LessonService {
     LessonServiceModel editLesson(Long id, LessonServiceModel lessonServiceModel);
 
     void deleteLesson(Long id);
+
+    LessonServiceModel findLessonByTitle(String lessonTitle);
 }
