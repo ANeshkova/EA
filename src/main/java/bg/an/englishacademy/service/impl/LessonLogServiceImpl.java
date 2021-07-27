@@ -53,4 +53,21 @@ public class LessonLogServiceImpl implements LessonLogService {
 
         lessonLogRepository.save(lessonLogEntity);
     }
+
+    @Override
+    public List<LessonLogServiceModel> findAllLogs() {
+        return lessonLogRepository
+                .findAll()
+                .stream()
+                .map(lessonLogEntity -> {
+                    LessonLogServiceModel lessonLogServiceModel = modelMapper
+                            .map(lessonLogEntity, LessonLogServiceModel.class);
+
+                    lessonLogServiceModel.setLessonTitle(lessonLogEntity.getLessonEntity().getTitle())
+                            .setUsername(lessonLogEntity.getUserEntity().getUsername());
+
+                    return lessonLogServiceModel;
+                })
+                .collect(Collectors.toList());
+    }
 }
