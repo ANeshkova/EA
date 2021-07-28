@@ -9,4 +9,6 @@ public interface LessonLogService {
     void createLog(String action, Long lessonId);
 
     List<LessonLogServiceModel> findAllLogs();
+
+    void deleteLogs();
 }
