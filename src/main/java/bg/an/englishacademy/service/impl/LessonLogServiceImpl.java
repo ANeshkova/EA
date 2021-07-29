@@ -70,4 +70,9 @@ public class LessonLogServiceImpl implements LessonLogService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteLogs() {
+        this.lessonLogRepository.deleteAll();
+    }
 }
