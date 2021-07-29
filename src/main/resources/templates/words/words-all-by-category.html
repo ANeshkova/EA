@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+    <script type="text/javascript" src="https://code.responsivevoice.org/responsivevoice.js"></script>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+
+<main>
+    <div style="max-width: 1300px; margin: 0 auto">
+        <div th:if="${wordAddedSuccessfully}" class="alert alert-success text-center" role="alert"
+             th:text="|Word ${word} added successfully to your words.|">
+        </div>
+
+        <div th:if="${wordRemovedSuccessfully}" class="alert alert-success text-center" role="alert"
+             th:text="|Word ${word} removed successfully from your words.|">
+        </div>
+
+        <div class="pt-5 pb-5 wrapper mx-auto" style="border-radius: 20px;">
+            <th:block th:if="${words.size() == 0}">
+                <h3 class="text-center text-dark" th:text="|There are no words in category ${category}|"></h3>
+            </th:block>
+
+            <th:block th:if="${words.size() > 0}">
+
+                <script th:inline="javascript">{
+                    window.onload = () => {
+                        let currentCategory = [[${category}]]
+                        setCategory(currentCategory);
+                    }
+                }</script>
+
+                <h1 class="text-center text-dark" th:text="|All words in category ${category}|"></h1>
+                <hr class="hr-2 my-form__hr" style="width: 85%;">
+
+                <table id="wordsTable" class="table table-hover mx-auto" style="width: 85%;">
+                </table>
+
+            </th:block>
+
+        </div>
+    </div>
+</main>
+
+<th:block th:include="~{fragments/footer}"></th:block>
+
+<script th:src="@{../../js/words-table.js}"></script>
+</body>
+</html>
