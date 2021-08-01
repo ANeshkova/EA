@@ -55,4 +55,21 @@ public class CategoryLogServiceImpl implements CategoryLogService {
 
         categoryLogRepository.save(categoryLogEntity);
     }
+
+    @Override
+    public List<CategoryLogServiceModel> findAllLogs() {
+        return categoryLogRepository
+                .findAll()
+                .stream()
+                .map(categoryLogEntity -> {
+                    CategoryLogServiceModel categoryLogServiceModel = modelMapper
+                            .map(categoryLogEntity, CategoryLogServiceModel.class);
+
+                    categoryLogServiceModel.setCategory(categoryLogEntity.getCategoryEntity().getName())
+                            .setUsername(categoryLogEntity.getUserEntity().getUsername());
+
+                    return categoryLogServiceModel;
+                })
+                .collect(Collectors.toList());
+    }
 }
