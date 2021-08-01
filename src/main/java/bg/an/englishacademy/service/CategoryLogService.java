@@ -9,4 +9,6 @@ public interface CategoryLogService {
     void createLog(String action, String categoryName);
 
     List<CategoryLogServiceModel> findAllLogs();
+
+    void deleteLogs();
 }
