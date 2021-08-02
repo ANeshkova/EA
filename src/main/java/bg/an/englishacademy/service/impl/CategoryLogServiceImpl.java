@@ -72,4 +72,9 @@ public class CategoryLogServiceImpl implements CategoryLogService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteLogs() {
+        this.categoryLogRepository.deleteAll();
+    }
 }
