@@ -7,10 +7,7 @@ import bg.an.englishacademy.service.UserService;
 import bg.an.englishacademy.service.WordService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -37,6 +34,17 @@ public class WordRestController {
                 .ok()
                 .body(this.wordService
                         .findAllWords()
+                        .stream()
+                        .map(w -> this.modelMapper.map(w, WordViewModel.class))
+                        .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/category/api/{category}")
+    public ResponseEntity<List<WordViewModel>> findAllByCategory(@PathVariable String category) {
+        return ResponseEntity
+                .ok()
+                .body(this.wordService
+                        .findAllWordsByCategory(category)
                         .stream()
                         .map(w -> this.modelMapper.map(w, WordViewModel.class))
                         .collect(Collectors.toList()));
