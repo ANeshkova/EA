@@ -179,7 +179,7 @@ public class WordController extends BaseController {
         model.addAttribute("words", words);
         model.addAttribute("category", category);
 
-        return "words/words-all";
+        return "words/words-all-by-category";
     }
 
     @PostMapping("/add-to-my/{id}")
